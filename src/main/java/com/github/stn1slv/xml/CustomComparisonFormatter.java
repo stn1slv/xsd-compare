@@ -1,6 +1,5 @@
 package com.github.stn1slv.xml;
 
-import com.github.stn1slv.xml.old.ApplicationUtil;
 import org.xmlunit.diff.Comparison;
 import org.xmlunit.diff.ComparisonFormatter;
 import org.xmlunit.diff.ComparisonType;
@@ -56,7 +55,7 @@ public class CustomComparisonFormatter implements ComparisonFormatter {
             if (difference.getTarget() == null) {
                 return "<NULL>";
             }
-            return ApplicationUtil.xmlDocumentToString(difference.getTarget(), true);
+            return difference.getTarget().getOwnerDocument().toString();
         } catch (Exception ex) {
             return "<Exceptioon>" + ex.getMessage() + "</Exception>";
         }
