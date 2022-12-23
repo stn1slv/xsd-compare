@@ -6,14 +6,13 @@
                 <xs:element type="nameType" name="name"/>
                 <xs:element type="xs:string" name="sku"/>
                 <xs:element type="xs:decimal" name="price"/>
-<!--                <xs:element type="xs:date" name="orderDate"/>-->
                 <xs:element name="shipTo">
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element type="xs:string" name="name"/>
                             <xs:element type="xs:string" name="address"/>
                             <xs:element type="xs:string" name="city"/>
-<!--                            <xs:element type="xs:string" name="state"/> -->
+                            <xs:element type="xs:string" name="state"/>
                             <xs:element type="xs:string" name="zip"/>
                         </xs:sequence>
                     </xs:complexType>
