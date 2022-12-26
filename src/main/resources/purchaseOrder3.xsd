@@ -24,7 +24,7 @@
                             <xs:element type="xs:string" name="name"/>
                             <xs:element type="xs:string" name="address"/>
                             <xs:element type="xs:string" name="city"/>
-                            <xs:element type="xs:string" name="state"/>
+<!--                            <xs:element type="xs:string" name="state"/>-->
                             <xs:element type="xs:string" name="zip"/>
                         </xs:sequence>
                     </xs:complexType>

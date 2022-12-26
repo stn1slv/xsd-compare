@@ -15,6 +15,7 @@ import java.util.Set;
 public class App {
     private final static String XML_ELEMENT = "element";
     private final static String MIN_OCCURS_ATTR = "minOccurs";
+    private final static String NILLABLE_ATTR = "nillable";
     private final static String NAME_ATTR = "name";
 
     public static void main(String[] args) {
@@ -53,13 +54,13 @@ public class App {
                 if (controlDetail.getValue() != null && XML_ELEMENT.equalsIgnoreCase(controlDetail.getTarget().getLocalName())) {
                     System.out.println("Removed [" + controlDetail.getTarget().getAttributes().getNamedItem(NAME_ATTR).getNodeValue()
                             + "] element which is "
-                            + (checkOptionalElement(controlDetail.getTarget()) ? "optional" : "mandatory"));
+                            + (isOptional(controlDetail.getTarget()) ? "optional" : "mandatory"));
                 }
 
                 if (testDetail.getValue() != null && XML_ELEMENT.equalsIgnoreCase(testDetail.getTarget().getLocalName())) {
                     System.out.println("Added [" + testDetail.getTarget().getAttributes().getNamedItem(NAME_ATTR).getNodeValue()
                             + "] element which is "
-                            + (checkOptionalElement(testDetail.getTarget()) ? "optional" : "mandatory"));
+                            + (isOptional(testDetail.getTarget()) ? "optional" : "mandatory"));
 
                 }
 
@@ -89,21 +90,28 @@ public class App {
                         + controlDetail.getTarget().getLocalName() + "] attribute of ["
                         + getOwnerElementByChangedAttribute(controlDetail.getTarget()) + "] element"
                 );
-
             }
-
         }
         return null;
     }
 
-    private static boolean checkOptionalElement(Node node) {
+    private static boolean isOptional(Node node) {
         try {
-            if (node.getAttributes().getNamedItem(MIN_OCCURS_ATTR).getNodeValue().equals("0"))
-                return true;
+            if (Node.ELEMENT_NODE == node.getNodeType()) {
+                if (attributeValue(node, MIN_OCCURS_ATTR).equals("0")
+                        || attributeValue(node, NILLABLE_ATTR).equals("true")
+                ) {
+                    return true;
+                }
+            }
         } catch (Exception e) {
-            //do nothing
+            return false;
         }
         return false;
+    }
+
+    private static String attributeValue(Node node, String attrName) {
+        return node.getAttributes().getNamedItem(attrName).getNodeValue();
     }
 
     private static String getOwnerElementByChangedAttribute(Node node) {
