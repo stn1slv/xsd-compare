@@ -5,7 +5,13 @@ import org.w3c.dom.Node;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.*;
+import org.xmlunit.validation.Languages;
+import org.xmlunit.validation.ValidationResult;
+import org.xmlunit.validation.Validator;
 
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -19,11 +25,24 @@ public class App {
     private final static String NAME_ATTR = "name";
 
     public static void main(String[] args) {
-        String currentXSD = readFromFile("src/main/resources/purchaseOrder2.xsd");
-        String newXSD = readFromFile("src/main/resources/purchaseOrder3.xsd");
+        String currentSchema="src/main/resources/purchaseOrder2.xsd";
+        String newSchema="src/main/resources/purchaseOrder3.xsd";
+
+        String currentXSD = readFromFile(currentSchema);
+        String newXSD = readFromFile(newSchema);
 
         compareXMLUnit(currentXSD, newXSD);
 
+//        ValidationResult r=validateXMLUnit(currentSchema);
+//        System.out.println(r.isValid());
+//        System.out.println(r.getProblems());
+
+    }
+
+    private static ValidationResult validateXMLUnit(String fileName){
+        Validator v = Validator.forLanguage(Languages.W3C_XML_SCHEMA_NS_URI);
+        v.setSchemaSource(new StreamSource(fileName));
+       return v.validateSchema();
     }
 
     private static void compareXMLUnit(String current, String newStr) {

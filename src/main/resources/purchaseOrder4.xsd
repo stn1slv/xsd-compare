@@ -9,7 +9,7 @@
                 <xs:element name="shipTo">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element type="xs:string" name="name"/>
+                            <xs:element type="xs:string" name="name" asas="asdas"/>
                             <xs:element type="xs:string" name="address"/>
                             <xs:element type="xs:string" name="city"/>
                             <xs:element type="xs:string" name="state"/>
